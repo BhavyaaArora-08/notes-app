@@ -7,11 +7,12 @@ function getNotes() {
 
 const addNote = function (title, body) {
   const notes = loadNotes();
-  const dupNote = notes.filter(function (note) {
-    return note.title == title;
-  });
+  // const dupNote = notes.filter(function (note) {
+  //   return note.title == title;
+  // });
+  const duplicateNote = notes.find((note) => note.title === title);
 
-  if (dupNote.length == 0) {
+  if (!duplicateNote) {
     notes.push({
       title: title,
       body: body,
@@ -23,7 +24,16 @@ const addNote = function (title, body) {
   }
 };
 
-const readNotes = function () {};
+const readNotes = function (title) {
+  const notes = loadNotes();
+  const noteF = notes.find((note) => note.title === title);
+
+  if (noteF) {
+    console.log(chalk.green.inverse(noteF.body));
+  } else {
+    console.log(chalk.red.inverse("note not found"));
+  }
+};
 
 const removeNote = function (title) {
   let notes = loadNotes();
@@ -70,4 +80,5 @@ module.exports = {
   addNote: addNote,
   removeNote: removeNote,
   listNotes: listNotes,
+  readNote: readNotes,
 };
